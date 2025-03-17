@@ -1,5 +1,4 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { ChatMessage, PeerData, SignalInfo, UserInfo } from './models/peerData';
 import { SignalrService } from './signalr.service';
@@ -7,6 +6,7 @@ import { RtcService } from './rtc.service';
 import { UserListComponent } from './user-list/user-list.component';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+
 
 @Component({
   selector: 'app-root',
@@ -24,11 +24,11 @@ export class AppComponent implements OnInit, OnDestroy {
 
   public currentUser!: string ;
 
-  public dataString!: string;
+  public dataString: string = "";
 
   public userVideo!: string;
 
-  public messages!: Array<ChatMessage>;
+  public messages: Array<ChatMessage> = new Array();
 
   public mediaError = (): void => { console.error(`Can't get user media`); };
 
@@ -89,6 +89,8 @@ export class AppComponent implements OnInit, OnDestroy {
   public sendMessage() {
     this.rtcService.sendMessage(this.dataString);
     this.messages = [...this.messages, { own: true, message: this.dataString }];
+    console.log(`Data sent:`,this.messages);
+    console.log(`Data from user`,this.rtcService.onData$);
     this.dataString = "";
   }
   ngOnDestroy() {

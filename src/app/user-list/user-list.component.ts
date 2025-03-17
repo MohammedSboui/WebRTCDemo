@@ -3,11 +3,11 @@ import { Observable } from 'rxjs';
 import { RtcService } from '../rtc.service';
 import { UserInfo } from '../models/peerData';
 import { CommonModule } from '@angular/common';
-
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-user-list',
-  imports: [CommonModule],
+  imports: [CommonModule,FormsModule],
   templateUrl: './user-list.component.html',
   styleUrls: ['./user-list.component.scss']
 })

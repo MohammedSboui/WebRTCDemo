@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { PeerData, UserInfo } from './models/peerData';
-import SimplePeer, { Instance } from 'simple-peer';
+import { Instance } from 'simple-peer';
+
+declare var SimplePeer: any;
 
 @Injectable({
   providedIn: 'root'
@@ -42,12 +44,12 @@ export class RtcService {
   public createPeer(stream:any, userId: string, initiator: boolean): Instance {
     const peer = new SimplePeer({ initiator, stream });
 
-    peer.on('signal', data => {
+    peer.on('signal', (data: any) => {
       const stringData = JSON.stringify(data);
       this.onSignalToSend.next({ id: userId, data: stringData });
     });
 
-    peer.on('stream', data => {
+    peer.on('stream', (data: any) => {
       console.log('on stream', data);
       this.onStream.next({ id: userId, data });
     });
@@ -56,7 +58,8 @@ export class RtcService {
       this.onConnect.next({ id: userId, data: null });
     });
 
-    peer.on('data', data => {
+    peer.on('data', (data: any) => {
+      console.log('on data', data);
       this.onData.next({ id: userId, data });
     });
 
@@ -75,5 +78,6 @@ export class RtcService {
 
   public sendMessage(message: string) {
     this.currentPeer.send(message);
+    console.log(`Data sent`,this.currentPeer.listeners);
   }
 }
