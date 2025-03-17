@@ -15,7 +15,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './app.component.css'
 })
 export class AppComponent implements OnInit, OnDestroy {
-
+  title = 'ChatRoomApp';
   @ViewChild('videoPlayer') videoPlayer!: ElementRef;
 
   public subscriptions = new Subscription();
@@ -68,6 +68,8 @@ export class AppComponent implements OnInit, OnDestroy {
       this.videoPlayer.nativeElement.srcObject = data.data;
       this.videoPlayer.nativeElement.load();
       this.videoPlayer.nativeElement.play();
+      console.log(`stream`,data);
+      
     }));
   }
 
@@ -75,6 +77,7 @@ export class AppComponent implements OnInit, OnDestroy {
   public onUserSelected(userInfo: UserInfo) {
     const peer = this.rtcService.createPeer(this.stream, userInfo.connectionId, true);
     this.rtcService.currentPeer = peer;
+    console.log(`video`,this.videoPlayer.nativeElement.srcObject);
   }
 
   public async saveUsername(): Promise<void> {

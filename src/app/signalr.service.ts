@@ -27,7 +27,7 @@ export class SignalrService {
   public async startConnection(currentUser: string): Promise<void> {
 
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl('https://localhost:5001/signalrtc')
+      .withUrl('https://172.22.0.73:5001/signalrtc')
       .build();
 
     await this.hubConnection.start();
